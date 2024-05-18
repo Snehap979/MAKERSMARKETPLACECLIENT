@@ -31,7 +31,7 @@ const uploadPictureToS3 = (file,fileName) => {
     if (err) {
       console.error('Error uploading picture:', err);
     } else {
-      console.log('Picture uploaded successfully:', data.Location);
+      console.log('Picture uploaded successfully', data.Location);
       return data.Location
     }
   });
