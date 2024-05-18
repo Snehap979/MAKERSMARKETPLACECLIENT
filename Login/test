@@ -1,0 +1,140 @@
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { TextField, Button, Container } from "@material-ui/core";
+import {checkUserExists,authenticateUser} from '../actions/UserAction'
+import DashboardComponent from "../dashboard/DashboardComponent";
+import { RadioGroup, Radio, FormControlLabel, Grid, Typography } from "@mui/material";
+import UploadComponent from '../Upload/UploadComponent'
+import LoginComponent from "./LoginComponent";
+
+const useStyles = makeStyles((theme) => ({
+  formContainer: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  form: {
+    width: "50%%",
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
+
+const BuyerComponent = () => {
+const categories = [
+  "Handcrafted Goods/Jewelry/Home Decor",
+  "Art & Prints",
+  "Handmade Accessories/Scarves & Hats/Handbags",
+  "Personalized Gifts",
+  "DIY & Craft Supplies",
+  "Natural & Organic Products",
+  "Culinary Creations/Jams/Baked/Spices",
+  "Vintage & Retro Finds",
+  "Artisanal Beverages",
+  "Wellness & Self-Care/Aromatherapy/Meditation"
+];
+
+
+const [selectedCategory, setSelectedCategory] = useState("");
+const handleChange = (event) => {
+      setSelectedCategory(event.target.value);
+    };
+  const classes = useStyles();
+  const [navigate, setNavigation] = useState("false");
+  const [showErrorMessage, setErrorMessage] = useState("");
+
+  const [formData, setFormData] = useState({
+    shopName: "",
+    password: "",
+  });
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    console.log("event.taarget.value",event.target.value)
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+    console.log("formData",formData.shopName)
+    
+  };
+
+  const handleSubmit = async(event) => {
+    event.preventDefault();
+    let valid = true;
+    setNavigation("true")
+  };
+  if(navigate=="true")
+  return(
+    <LoginComponent>
+
+    </LoginComponent>
+    )
+  else
+  return (
+    <Container component="main" maxWidth="xs">
+      <div className={classes.formContainer}>
+        <form className={classes.form} onSubmit={handleSubmit}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="shopName"
+            label="Shop Name"
+            name="shopName"
+            autoComplete="shopName"
+            autoFocus
+            value={formData.shopName}
+            onChange={handleInputChange}
+          />
+         <Grid container spacing={2} >
+      <Grid item xs={12}>
+        <Typography variant="h6">Select a category:</Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <RadioGroup value={selectedCategory} onChange={handleChange}>
+          {categories.map((category, index) => (
+            <FormControlLabel
+              key={index}
+              value={category}
+              control={<Radio />}
+              label={category}
+            />
+          ))}
+        </RadioGroup>
+      </Grid>
+      <Grid item xs={12}>
+        <Typography variant="body1">Selected Category: {selectedCategory}</Typography>
+      </Grid>
+    </Grid>
+        
+        <UploadComponent>
+
+        </UploadComponent>
+
+        <Button
+        style={{background:'#C9B79C'}}
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Start Shop
+          </Button>
+        </form>
+      </div>
+      <div></div>
+    </Container>
+  );
+};
+
+
+export default BuyerComponent;
+
+
+
+
